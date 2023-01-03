@@ -39,8 +39,12 @@ namespace MVC_ContractorFinding.Controllers
                     password = collection["password"].ToString()
 
                 };
-                dSLogin.ValidateUser(tbUser);
-                return RedirectToAction(nameof(Index));
+                 string token=dSLogin.ValidateUser(tbUser).Result;
+                TempData["token"] = token;
+                // dSLogin.Logins();
+
+                return RedirectToAction("ShowDetails");
+              //return RedirectToAction("Index","Customer",new {area=""});
             }
             catch
             {
@@ -48,7 +52,10 @@ namespace MVC_ContractorFinding.Controllers
             }
         }
 
-
+        public IActionResult ShowDetails()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

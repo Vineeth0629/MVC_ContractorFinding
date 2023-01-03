@@ -1,11 +1,15 @@
 ﻿using CommonModels;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ServiceLayer
 {
@@ -32,22 +36,43 @@ namespace ServiceLayer
             return Login;
         }
 
-        public async Task<Boolean> ValidateUser(TbUser userMdl)
+        public async Task<string> ValidateUser(TbUser userMdl)
         {
-            var payload = Newtonsoft.Json.JsonConvert.SerializeObject( userMdl);
+            string msg = "";
+            try
+            {
+                var payload = Newtonsoft.Json.JsonConvert.SerializeObject(userMdl);
 
-            HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
-            HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
+                HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
+               // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
 
-            c.Headers.Add("", "");
-            HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync("User/login",c );
+
+                HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync(APIDetails.API.ToString()+"User/login", c);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                    TokenDetails data = await JsonSerializer.DeserializeAsync<TokenDetails>(contentstream);
+                    msg= data.Message;
+                }
+            }
+            catch(Exception ex)
+            {
+                return "";
+            }
+            return msg;
+        }
+        public async Task<IEnumerable<Login>> postLogins(string emailId,string password)
+        {
+            //var json=JsonConvert.SerializeObject( user);
+            //var data=new StringContent(json, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync(APIDetails.API.ToString() + "User",new StringContent("?emailId=" + emailId + "?password=" + password));
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
-                Login = await JsonSerializer.DeserializeAsync<IList<Login>>(contentstream);
-
+                var response = await HttpClient.GetStreamAsync(APIDetails.API.ToString());
             }
-            return true;
+            return Login;
         }
 
     }

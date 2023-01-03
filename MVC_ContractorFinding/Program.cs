@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
 builder.Services.AddHttpClient<IDSLogin, DSLogin>();
+builder.Services.AddHttpClient<IDScustomer, DScustomer>();
+builder.Services.AddHttpClient<IDsContract,DsContract>();
 builder.Configuration.AddJsonFile("appsettings.json", optional:true);
 builder.Services.Configure<APIDetails>(builder.Configuration.GetSection("APIDetails"));
 
