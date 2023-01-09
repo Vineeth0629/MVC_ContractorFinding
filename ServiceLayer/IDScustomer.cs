@@ -10,6 +10,8 @@ namespace ServiceLayer
     public interface IDScustomer
     {
         Task<IList<customer>> GetCustomer(string token);
-        Task<IList<customer>> InsertCustomer(customer userMdl, string token);
+        Task InsertCustomer(customer userMdl, string token);
+        Task UpdateCustomer(customer userMdl, string token);
+        Task deleteCustomer(customer userMdl, string token);
     }
 }

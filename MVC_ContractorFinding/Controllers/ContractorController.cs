@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer;
 using CommonModels;
+using Newtonsoft.Json;
+
 namespace MVC_ContractorFinding.Controllers
 {
     public class ContractorController : Controller
@@ -17,16 +19,26 @@ namespace MVC_ContractorFinding.Controllers
         {
             string token = TempData["token"].ToString();
             IList<Contract> custList = await _ids.GetContract(token);
+            TempData["token"] = token;
+            TempData["custList"] = JsonConvert.SerializeObject(custList);
+
+
 
             return View(custList);
         }
 
         // GET: ContractorController/Details/5
-        public ActionResult Details(int id)
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
+        public ActionResult Details(string id)
         {
-            return View();
+            IList<customer> custlist = JsonConvert.DeserializeObject<IList<customer>>((string)TempData["custList"]);
+            TempData["custList"] = JsonConvert.SerializeObject(custlist);
+            customer cust = custlist.Where(cust => cust.RegistrationNo == id).FirstOrDefault();
+            return View(cust);
         }
-
         // GET: ContractorController/Create
         public ActionResult Create()
         {
@@ -36,10 +48,17 @@ namespace MVC_ContractorFinding.Controllers
         // POST: ContractorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task <IActionResult> Create(Contract userMdl)
         {
             try
             {
+
+                string token = TempData["token"].ToString();
+                TempData["token"] = token;
+                // List<customer> custList =
+                await _ids.InsertContractor(userMdl, token);
+                //return View(custList);
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -47,6 +66,8 @@ namespace MVC_ContractorFinding.Controllers
                 return View();
             }
         }
+
+
 
         // GET: ContractorController/Edit/5
         public ActionResult Edit(int id)

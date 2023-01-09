@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    public class DsContract: IDsContract
+    public class DsContract : IDsContract
     {
         public APIDetails APIDetails { get; set; }
         public IList<Contract> cust { get; set; }
@@ -35,5 +35,32 @@ namespace ServiceLayer
             }
             return cust;
         }
+        public async Task InsertContractor(Contract userMdl, string token)
+        {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try
+            {
+                var payload = Newtonsoft.Json.JsonConvert.SerializeObject(userMdl);
+
+                HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
+                // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
+
+
+                HttpResponseMessage httpResponseMessage = await HttpClient.PutAsync(APIDetails.API.ToString() + "Contractor", c);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                    cust = await JsonSerializer.DeserializeAsync<IList<Contract>>(contentstream);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
     }
 }
+

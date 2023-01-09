@@ -37,7 +37,7 @@ namespace ServiceLayer
             }
             return cust;
         }
-        public async Task<IList<customer>> InsertCustomer(customer userMdl, string token)
+        public async Task InsertCustomer(customer userMdl, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -62,18 +62,45 @@ namespace ServiceLayer
 
             }
 
-            return cust;
+          //  return null;
         }
-        //public async Task<IList<customer>> deleteCustomer(customer userMdl, string token)
-        //{
-        //    HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        //    using (var shoppingCartClient = new HttpClient())
-        //    {
-        //        var response = await shoppingCartClient.DeleteAsync(APIDetails.API.ToString() + "Customer");
-        //        response.EnsureSuccessStatusCode();
-        //    }
-        //    return "";
+        public async Task UpdateCustomer(customer userMdl, string token)
+        {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        //}
+            try
+            {
+                var payload = Newtonsoft.Json.JsonConvert.SerializeObject(userMdl);
+
+                HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
+                // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
+
+
+                HttpResponseMessage httpResponseMessage = await HttpClient.PutAsync(APIDetails.API.ToString() + "Customer/CustomerUpdate", c);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                    cust = await JsonSerializer.DeserializeAsync<IList<customer>>(contentstream);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            //  return null;
+        }
+        public async Task deleteCustomer(customer userMdl, string token)
+        {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            using (var shoppingCartClient = new HttpClient())
+            {
+                var response = await shoppingCartClient.DeleteAsync(APIDetails.API.ToString() + "Customer");
+                response.EnsureSuccessStatusCode();
+            }
+            //return "";
+
+        }
     }
 }

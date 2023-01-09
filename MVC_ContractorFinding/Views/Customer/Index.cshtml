@@ -55,9 +55,9 @@
                 @Html.DisplayFor(modelItem => item.Pincode)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {  id=item.RegistrationNo  }) |
+                @Html.ActionLink("Details", "Details", new { id=item.RegistrationNo  }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.RegistrationNo  })
             </td>
         </tr>
 }
