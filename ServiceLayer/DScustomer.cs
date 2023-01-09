@@ -1,5 +1,6 @@
 ﻿using CommonModels;
 using Microsoft.Extensions.Options;
+//using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ServiceLayer
@@ -62,7 +64,7 @@ namespace ServiceLayer
 
             }
 
-          //  return null;
+            //  return null;
         }
         public async Task UpdateCustomer(customer userMdl, string token)
         {
@@ -91,16 +93,53 @@ namespace ServiceLayer
 
             //  return null;
         }
-        public async Task deleteCustomer(customer userMdl, string token)
+        //public async Task deleteCustomer(string RegNo, string token)
+        //{
+
+        //  //  var response = await client.SendAsync(request);
+        //    HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        //    using (var contentstream = new HttpClient())
+        //    {
+
+        //        var request = new HttpRequestMessage
+        //        {
+        //            Method = HttpMethod.Delete,
+
+        //            RequestUri = new Uri(APIDetails.API.ToString() + "Customer" + "?registrationNo=" + RegNo),
+        //            //Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(userMdl), Encoding.UTF8, "application/json")
+        //        };
+        //        var response = await contentstream.SendAsync(request);
+        //        response.EnsureSuccessStatusCode();
+        //    }
+        //return "";
+
+        //  }
+
+        public async Task deleteCustomer(string regNo, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            using (var shoppingCartClient = new HttpClient())
-            {
-                var response = await shoppingCartClient.DeleteAsync(APIDetails.API.ToString() + "Customer");
-                response.EnsureSuccessStatusCode();
-            }
-            //return "";
 
+            try
+            {
+                var payload = Newtonsoft.Json.JsonConvert.SerializeObject(regNo);
+
+                HttpResponseMessage httpResponseMessage = await HttpClient.DeleteAsync(APIDetails.API.ToString() + "Customer" + "?registrationNo=" + regNo);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                    using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                    cust = await JsonSerializer.DeserializeAsync<IList<customer>>(contentstream);
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+            }
         }
+
+        //return null;
+        //    }
     }
-}
+    }
+

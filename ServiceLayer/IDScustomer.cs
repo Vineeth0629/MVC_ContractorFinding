@@ -12,6 +12,6 @@ namespace ServiceLayer
         Task<IList<customer>> GetCustomer(string token);
         Task InsertCustomer(customer userMdl, string token);
         Task UpdateCustomer(customer userMdl, string token);
-        Task deleteCustomer(customer userMdl, string token);
+        Task deleteCustomer(string regNo, string token);
     }
 }

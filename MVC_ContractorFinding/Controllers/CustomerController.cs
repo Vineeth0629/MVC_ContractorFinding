@@ -118,8 +118,9 @@ namespace MVC_ContractorFinding.Controllers
             try
             {
                 string token = TempData["token"].ToString();
-                await _ids.deleteCustomer(custMdl, token);
                 TempData["token"] = token;
+                await _ids.deleteCustomer(id.ToString(), token);
+
                 return RedirectToAction(nameof(Index));
             }
             catch

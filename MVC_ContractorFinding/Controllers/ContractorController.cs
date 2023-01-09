@@ -28,15 +28,12 @@ namespace MVC_ContractorFinding.Controllers
         }
 
         // GET: ContractorController/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-        public ActionResult Details(string id)
+ 
+        public ActionResult Details(int id)
         {
-            IList<customer> custlist = JsonConvert.DeserializeObject<IList<customer>>((string)TempData["custList"]);
+            IList<Contract> custlist = JsonConvert.DeserializeObject<IList<Contract>>((string)TempData["custList"]);
             TempData["custList"] = JsonConvert.SerializeObject(custlist);
-            customer cust = custlist.Where(cust => cust.RegistrationNo == id).FirstOrDefault();
+            Contract cust = custlist.Where(cust => cust.ContractorId == id).FirstOrDefault();
             return View(cust);
         }
         // GET: ContractorController/Create
@@ -59,7 +56,7 @@ namespace MVC_ContractorFinding.Controllers
                 await _ids.InsertContractor(userMdl, token);
                 //return View(custList);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ContractorView));
             }
             catch
             {
@@ -69,20 +66,27 @@ namespace MVC_ContractorFinding.Controllers
 
 
 
-        // GET: ContractorController/Edit/5
+        //GET: ContractorController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            IList<Contract> custList = JsonConvert.DeserializeObject<IList<Contract>>((string)TempData["custList"]);
+            TempData["custList"] = JsonConvert.SerializeObject(custList);
+            Contract cust = custList.Where(cust => cust.ContractorId == id).FirstOrDefault();
+            return View(cust);
+
         }
 
         // POST: ContractorController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Contract custMdl)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                string token = TempData["token"].ToString();
+                await _ids.updatecontractor(custMdl, token);
+                TempData["token"] = token;
+                return RedirectToAction(nameof(ContractorView));
             }
             catch
             {
@@ -90,25 +94,34 @@ namespace MVC_ContractorFinding.Controllers
             }
         }
 
-        // GET: ContractorController/Delete/5
+        
         public ActionResult Delete(int id)
         {
-            return View();
+            IList<Contract> custlist = JsonConvert.DeserializeObject<IList<Contract>>((string)TempData["custList"]);
+            TempData["custList"] = JsonConvert.SerializeObject(custlist);
+            Contract cust = custlist.Where(cust => cust.ContractorId == id).FirstOrDefault();
+            return View(cust);
+
         }
 
-        // POST: ContractorController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+        // POST: CustomerController/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Delete(int id, Contract custMdl)
+        //{
+        //    try
+        //    {
+        //        string token = TempData["token"].ToString();
+        //        TempData["token"] = token;
+        //        await _ids.deletecontractor(id.ToString(), token);
+
+        //        return RedirectToAction(nameof(ContractorView));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
         }
     }
-}
+
+
