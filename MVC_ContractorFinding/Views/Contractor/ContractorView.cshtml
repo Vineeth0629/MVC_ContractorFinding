@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CommonModels.Contract>
+﻿@model IEnumerable<ServiceLayer.ContractorDisplay>
 
 @{
     ViewData["Title"] = "ContractorView";
@@ -12,12 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Services)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -34,7 +28,13 @@
                 @Html.DisplayNameFor(model => model.CompanyName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.License)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Services)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Lattitude)
@@ -55,12 +55,6 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Services)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
@@ -76,7 +70,13 @@
                 @Html.DisplayFor(modelItem => item.CompanyName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.License)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Services)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Lattitude)
@@ -91,9 +91,9 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {  id=item.ContractorId}) |
+                    @Html.ActionLink("Details", "Details", new { id=item.ContractorId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.License })
             </td>
         </tr>
 }

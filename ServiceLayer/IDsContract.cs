@@ -10,9 +10,9 @@ namespace ServiceLayer
     public interface IDsContract
     {
        
-        Task<IList<Contract>> GetContract(string token);
-        Task InsertContractor(Contract userMdl, string token);
-        Task updatecontractor(Contract userMdl, string token);
-       // Task deletecontractor(string contractId, string token);
+        Task<IList<ContractorDisplay>> GetContract(string token);
+        Task CreateContractorDetail(ContractorDetail userMdl, string token);
+        Task updatecontractor(ContractorDetail userMdl, string token);
+        Task deletecontractor(string License, string token); 
     }
 }

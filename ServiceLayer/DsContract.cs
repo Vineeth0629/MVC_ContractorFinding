@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -13,7 +14,7 @@ namespace ServiceLayer
     public class DsContract : IDsContract
     {
         public APIDetails APIDetails { get; set; }
-        public IList<Contract>? cust { get; set; }
+        public IList<ContractorDisplay>? cust { get; set; }
         public HttpClient HttpClient;
         public DsContract(HttpClient httpClient, IOptions<APIDetails> apidetails)
         {
@@ -21,7 +22,7 @@ namespace ServiceLayer
             APIDetails = apidetails.Value;
         }
 
-        public async Task<IList<Contract>> GetContract(string token)
+        public async Task<IList<ContractorDisplay>> GetContract(string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -30,12 +31,12 @@ namespace ServiceLayer
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
-                cust = await JsonSerializer.DeserializeAsync<IList<Contract>>(contentstream);
+                cust = await JsonSerializer.DeserializeAsync<IList<ContractorDisplay>>(contentstream);
 
             }
             return cust;
         }
-        public async Task InsertContractor(Contract userMdl, string token)
+        public async Task CreateContractorDetail(ContractorDetail userMdl, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -51,7 +52,6 @@ namespace ServiceLayer
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
-                    cust = await JsonSerializer.DeserializeAsync<IList<Contract>>(contentstream);
 
                 }
             }
@@ -61,7 +61,7 @@ namespace ServiceLayer
             }
 
         }
-        public async Task updatecontractor(Contract userMdl, string token)
+        public async Task updatecontractor(ContractorDetail userMdl, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -73,11 +73,11 @@ namespace ServiceLayer
                 // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
 
 
-                HttpResponseMessage httpResponseMessage = await HttpClient.PutAsync(APIDetails.API.ToString() + "Contractor/Contractorupdate", c);
+                HttpResponseMessage httpResponseMessage = await HttpClient.PutAsync(APIDetails.API.ToString() + "Contractor/ContractorUpdate", c);
                 if (httpResponseMessage.IsSuccessStatusCode)
                 {
                     using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
-                    cust = await JsonSerializer.DeserializeAsync<IList<Contract>>(contentstream);
+                    //cust = await JsonSerializer.DeserializeAsync<IList<Contract>>(contentstream);
 
                 }
             }
@@ -85,36 +85,37 @@ namespace ServiceLayer
             {
 
             }
-
-            //public async Task deletecontractor(string contractId, string token)
-
-            //{
-            //    HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            //    try
-            //    {
-            //        var payload = Newtonsoft.Json.JsonConvert.SerializeObject(contractId);
-
-            //        //HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
-            //        // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
+        }
+            public async Task deletecontractor(string License, string token)
 
 
-            //        HttpResponseMessage httpResponseMessage = await HttpClient.DeleteAsync(APIDetails.API.ToString() + "Contractor" + "?ContractorId=" + contractId);
-            //        if (httpResponseMessage.IsSuccessStatusCode)
-            //        {
-            //            using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
-            //            cust = await JsonSerializer.DeserializeAsync<IList<Contract>>(contentstream);
+            {
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            //        }
-            //    }
+                try
+                {
+                    var payload = Newtonsoft.Json.JsonConvert.SerializeObject(License);
 
-            //    catch (Exception ex)
-            //    {
+                    //HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
+                    // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
 
-            //    }
-            //}
+
+                    HttpResponseMessage httpResponseMessage = await HttpClient.DeleteAsync(APIDetails.API.ToString() + "Contractor" + "?licenseId=" + License);
+                    if (httpResponseMessage.IsSuccessStatusCode)
+                    {
+                        using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                        cust = await JsonSerializer.DeserializeAsync<IList<ContractorDisplay>>(contentstream);
+
+                    }
+                }
+
+                catch (Exception ex)
+                {
+
+                }
+            }
 
             //  return null;
         }
-    }
-}
+        }
+    
