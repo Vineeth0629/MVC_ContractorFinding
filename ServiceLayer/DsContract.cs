@@ -100,7 +100,7 @@ namespace ServiceLayer
                     // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
 
 
-                    HttpResponseMessage httpResponseMessage = await HttpClient.DeleteAsync(APIDetails.API.ToString() + "Contractor" + "?licenseId=" + License);
+                    HttpResponseMessage httpResponseMessage = await HttpClient.DeleteAsync(APIDetails.API.ToString() + "Contractor" + "?licenseId=" + "'"+License+"'");
                     if (httpResponseMessage.IsSuccessStatusCode)
                     {
                         using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();

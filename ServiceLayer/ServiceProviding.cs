@@ -4,9 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CommonModels
+namespace ServiceLayer
 {
-    public partial class ContractsS
+    public partial class ServiceProviding
+    {
+        public int ServiceId { get; set; }
+
+        public string? ServiceName { get; set; }
+
+        public virtual ICollection<ContractorDetail> ContractorDetails { get; } = new List<ContractorDetail>();
+    }
+    public partial class ContractorDetail
     {
         public int? ContractorId { get; set; }
 
@@ -26,10 +34,11 @@ namespace CommonModels
 
         public long? PhoneNumber { get; set; }
 
-        //public virtual TbUser? Contractor { get; set; }
+        public virtual TbUser? Contractor { get; set; }
 
-        //public virtual TbGender? GenderNavigation { get; set; }
+        public virtual TbGender? GenderNavigation { get; set; }
 
-        //public virtual ServiceProviding? ServicesNavigation { get; set; }
+        public virtual ServiceProviding? ServicesNavigation { get; set; }
     }
+
 }

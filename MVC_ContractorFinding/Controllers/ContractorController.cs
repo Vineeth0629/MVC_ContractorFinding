@@ -162,10 +162,10 @@ namespace MVC_ContractorFinding.Controllers
 
 
         //POST: CustomerController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
+       [HttpPost]
+        [ValidateAntiForgeryToken]
 
-        public async Task<ActionResult> Delete(int id, ContractorDetail custMdl)
+        public async Task<ActionResult> Delete(string id, ContractorDetail custMdl)
         {
             try
             {
