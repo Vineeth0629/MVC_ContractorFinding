@@ -52,8 +52,21 @@ namespace MVC_ContractorFinding.Controllers
                                         ServicesNavigation = custLists.ServicesNavigation,
                                     }).ToList();
             
-            Contract cust = data.Where(cust => cust.ContractorId == id).FirstOrDefault();
+            Contract cust = data.Where(cust => cust.Pincode == id).FirstOrDefault();
             return View(cust);
+        }
+
+
+        //Searching by pincode
+
+        // GET: CustomerController/Details/5
+        public async Task<ActionResult> SearchBypincode(int pincode)
+        {
+            string token = TempData["token"].ToString();
+
+            IList<ContractorDisplay> custList = await _ids.SearchBypincode(token, pincode);
+            TempData["token"] = token;
+            return View("ContractorView", custList);
         }
         // GET: ContractorController/Create
         public ActionResult Create()
@@ -180,21 +193,7 @@ namespace MVC_ContractorFinding.Controllers
                 return View();
             }
         }
-        //public async Task<ActionResult> Delete(int id, Contract custMdl)
-        //{
-        //    try
-        //    {
-        //        string token = TempData["token"].ToString();
-        //        TempData["token"] = token;
-        //        await _ids.deletecontractor(id.ToString(), token);
-
-        //        return RedirectToAction(nameof(ContractorView));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+       
     }
 }
 

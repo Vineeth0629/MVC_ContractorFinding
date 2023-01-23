@@ -1,4 +1,14 @@
-﻿@model IEnumerable<CommonModels.customer>
+﻿<input type="text" id="pincode" />
+<script type="text/javascript">
+    function CopyToLabel() {
+        //Reference the TextBox.
+        var txtName = document.getElementById("pincode");
+        window.location.href = '@Url.Action("SearchBypincode", "Contractor")?pincode=' + txtName.value;
+        //return false;
+    }
+</script>
+<input type="submit" value="Search" class="btn btn-primary" onclick="return CopyToLabel()" />
+@model IEnumerable<CommonModels.customer>
 
 @{
     ViewData["Title"] = "Index";

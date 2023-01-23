@@ -36,6 +36,26 @@ namespace ServiceLayer
             }
             return cust;
         }
+
+
+        //Searching by pincode
+
+        public async Task<IList<ContractorDisplay>> SearchBypincode(string token, int pin)
+        {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+            HttpResponseMessage httpResponseMessage = await HttpClient.GetAsync(APIDetails.API.ToString() + "Customer" + "/Pincode" + "?PageNumber=" + 0 + "&PageSize=" + 100 + "&pin=" + pin);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+                cust = await JsonSerializer.DeserializeAsync<IList<ContractorDisplay>>(contentstream);
+
+            }
+            return cust;
+        }
+
+       
         public async Task CreateContractorDetail(ContractorDetail userMdl, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -95,10 +115,6 @@ namespace ServiceLayer
                 try
                 {
                     var payload = Newtonsoft.Json.JsonConvert.SerializeObject(License);
-
-                    //HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
-                    // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
-
 
                     HttpResponseMessage httpResponseMessage = await HttpClient.DeleteAsync(APIDetails.API.ToString() + "Contractor" + "?licenseId=" + "'"+License+"'");
                     if (httpResponseMessage.IsSuccessStatusCode)
