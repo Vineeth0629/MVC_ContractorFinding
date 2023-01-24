@@ -8,16 +8,84 @@ namespace MVC_ContractorFinding.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private IDSLogin dSLogin;
+        private IDSRegistration dSRegistration;
 
-        public HomeController(ILogger<HomeController> logger, IDSLogin dSLogin)
+        public HomeController(ILogger<HomeController> logger, IDSLogin dSLogin, IDSRegistration dSRegistration)
         {
             _logger = logger;
             this.dSLogin = dSLogin;
+            this.dSRegistration = dSRegistration;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult<bool> Register(IFormCollection collection)
+        {
+            try
+            {
+                Registration registration = new Registration()
+                {
+                    emailId = collection["emailId"].ToString(),
+                    password = collection["password"].ToString(),
+                    firstName = collection["firstname"].ToString(),
+                    lastName  = collection["lastName"].ToString(),
+                    confirmationPassword = collection["confirmationPassword"].ToString(),
+                    phoneNumber = Convert.ToInt64 ( collection["phoneNumber"]),
+                    typeUser =Convert.ToInt32( collection["typeUser"]),
+                    active = Convert.ToBoolean( collection["active"])
+                };
+                 bool isSuccess= dSRegistration.Registrations(registration).Result;
+
+                // dSLogin.Logins();
+                return View("Index");
+               // return RedirectToAction("ShowDetails");
+                //return RedirectToAction("Index","Customer",new {area=""});
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        public IActionResult Forgetpassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult<bool> Forgetpassword(IFormCollection collection)
+        {
+            try
+            {
+                Registration forgetpass = new Registration()
+                {
+                    emailId = collection["emailId"].ToString(),
+                    password = collection["password"].ToString(),
+                    confirmationPassword = collection["confirmationPassword"]
+                };
+                bool isSuccess = dSLogin.Forgetpassword(forgetpass).Result;
+
+                // dSLogin.Logins();
+                return View("Index");
+                // return RedirectToAction("ShowDetails");
+                //return RedirectToAction("Index","Customer",new {area=""});
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: ContracterFindingController/Create

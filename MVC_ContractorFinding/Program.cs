@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient<IDSLogin, DSLogin>();
 builder.Services.AddHttpClient<IDScustomer, DScustomer>();
 builder.Services.AddHttpClient<IDsContract,DsContract>();
+builder.Services.AddHttpClient<IDSRegistration, DSRegistration>();
 builder.Configuration.AddJsonFile("appsettings.json", optional:true);
 builder.Services.Configure<APIDetails>(builder.Configuration.GetSection("APIDetails"));
 

@@ -15,7 +15,7 @@ namespace ServiceLayer
         public string lastName { get; set; }
         public string emailId { get; set; }
         public string password { get; set; }
-        public int phoneNumber { get; set; }
+        public long phoneNumber { get; set; }
         public DateTime createdDate { get; set; }
         public DateTime updatedDate { get; set; }
         public bool active { get; set; }
