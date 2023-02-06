@@ -1,4 +1,6 @@
-﻿<input type="text" id="pincode" />
+﻿<h2>Search Your Contractor</h2>
+<input type="text" id="pincode" />
+
 <script type="text/javascript">
     function CopyToLabel() {
         //Reference the TextBox.
@@ -7,8 +9,10 @@
         //return false;
     }
 </script>
-<input type="submit" value="Search" class="btn btn-primary" onclick="return CopyToLabel()" />
+<input type="submit" value="Search" class="btn btn-primary" onclick="return CopyToLabel()" placeholder="Enter Pincode" />
 @model IEnumerable<CommonModels.customer>
+<link rel="stylesheet" href="~/css/customerstyle.css" asp-append-version="true" />
+
 
 @{
     ViewData["Title"] = "Index";

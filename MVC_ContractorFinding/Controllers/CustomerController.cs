@@ -44,6 +44,7 @@ namespace MVC_ContractorFinding.Controllers
             return View(cust);
         }
 
+
         // GET: CustomerController/Create
         public ActionResult Create()
         {

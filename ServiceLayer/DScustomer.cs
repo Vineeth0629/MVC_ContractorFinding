@@ -39,6 +39,8 @@ namespace ServiceLayer
             }
             return cust;
         }
+
+       
         public async Task InsertCustomer(customer userMdl, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -93,28 +95,7 @@ namespace ServiceLayer
 
             //  return null;
         }
-        //public async Task deleteCustomer(string RegNo, string token)
-        //{
-
-        //  //  var response = await client.SendAsync(request);
-        //    HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        //    using (var contentstream = new HttpClient())
-        //    {
-
-        //        var request = new HttpRequestMessage
-        //        {
-        //            Method = HttpMethod.Delete,
-
-        //            RequestUri = new Uri(APIDetails.API.ToString() + "Customer" + "?registrationNo=" + RegNo),
-        //            //Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(userMdl), Encoding.UTF8, "application/json")
-        //        };
-        //        var response = await contentstream.SendAsync(request);
-        //        response.EnsureSuccessStatusCode();
-        //    }
-        //return "";
-
-        //  }
-
+       
         public async Task deleteCustomer(string regNo, string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -138,8 +119,7 @@ namespace ServiceLayer
             }
         }
 
-        //return null;
-        //    }
+        
     }
     }
 

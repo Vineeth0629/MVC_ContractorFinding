@@ -1,6 +1,46 @@
-﻿@model CommonModels.Login
+﻿
 
-@{
+
+
+@model CommonModels.Login
+<link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true" />
+
+@*<div class="login">
+    <h1>Login</h1>
+    <form asp-action="Create">
+        <input asp-for="emailId" type="email" name="u" placeholder="email" required="required" />
+        <input asp-for="password" type="password" name="p" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="emailId" class="control-label"></label>
+            <input asp-for="emailId" class="form-control" />
+            <span asp-validation-for="emailId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="password" class="control-label"></label>
+            <input asp-for="password" class="form-control" />
+            <span asp-validation-for="password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Login" class="btn btn-primary" />
+        </div>
+        <div>
+            <a asp-action="Forgetpassword">Forgot Password</a>
+        </div>
+        <div>
+            <h3>Not a member?</h3>
+            <a asp-action="Register">REGISTER HERE</a>
+        </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </form>
+</div>
+*@
+
+@*{
     ViewData["Title"] = "Create";
 }
 
@@ -28,11 +68,121 @@
         </form>
     </div>
 </div>
-
+<div>
+    <a asp-action="Forgetpassword">Forgot Password</a>
+</div>
+<div>
+    <h3>Please Register</h3>
+    <a asp-action="Register">REGISTER</a>
+</div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}*@
+
+
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+<div class="login">
+  @*  <h2 class="active"> sign in </h2>
+        <h2 class="active"> sign up  </h2>    
+*@
+   <form asp-action="Create">
+@*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+*@            <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+
+        <div class="form-group">
+            <label asp-for="emailId" class="control-label"></label>
+            <input asp-for="emailId" class="form-control" />
+            <span asp-validation-for="emailId" class="text-warning"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="password" class="control-label"></label>
+            <input asp-for="password" class="form-control" />
+            <span asp-validation-for="password" class="text-warning"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Login" class="btn btn-primary" />
+            <div><h2>Not a member?</h2>
+            <a asp-action="Register"><h3>REGISTER HERE</h3></a>
+            </div>
+            <a asp-action="Forgetpassword">Forgot Password</a>
+
+         </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+    </form>
+    
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</div>
+
+@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Design by foolishdeveloper.com -->
+    <title>Glassmorphism login Form Tutorial in html css</title>
+    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ForgetPwd.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div>
+        <form asp-action="Login">
+            <h3>Login Here</h3>
+            <div asp-validation-summary="ModelOnly" class="text-warning"></div>
+            <div class="form-group">
+                <input type="email" asp-for="emailId" placeholder="email@example.com" class="form-control" required="" />
+                <span asp-validation-for="emailId" class="text-warning"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" asp-for="password" placeholder="password" class="form-control" required="" />
+                <span asp-validation-for="password" class="text-warning"></span>
+            </div>
+            <br />
+            <div class="form-group" align="justify">
+                <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="emailId" class="control-label"></label>
+                <input asp-for="emailId" class="form-control" />
+                <span asp-validation-for="emailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="password" class="control-label"></label>
+                <input asp-for="password" class="form-control" />
+                <span asp-validation-for="password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+            <br />
+            <a asp-action="Forgetpassword">Forgot Password</a>
+            <h2>Not a member?</h2>
+            <a asp-action="Register">REGISTER HERE</a>
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</body>
+</html>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }*@
+    

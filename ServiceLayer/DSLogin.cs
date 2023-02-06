@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace ServiceLayer
     {
         public APIDetails APIDetails { get; set; }
         public IList<Login> Login { get; set; }
+       
         public HttpClient HttpClient;
         public DSLogin(HttpClient httpClient,IOptions<APIDetails> apidetails)
         {
@@ -36,7 +38,28 @@ namespace ServiceLayer
             return Login;
         }
 
-        public async Task<string> ValidateUser(TbUser userMdl)
+        //public async Task<IList<Registration>> Registrations()
+        //{
+        //    //HttpResponseMessage httpResponseMessage = await HttpClient.PutAsync(APIDetails.API.ToString() + "User");
+        //    //if (httpResponseMessage.IsSuccessStatusCode)
+        //    //{
+        //    //    using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+        //    //    Registration = await JsonSerializer.DeserializeAsync<IList<Registration>>(contentstream);
+
+        //    //}
+
+        //    HttpResponseMessage httpResponseMessage = await HttpClient.PutAsync(APIDetails.API.ToString() + "Customer/CustomerUpdate", c);
+        //    if (httpResponseMessage.IsSuccessStatusCode)
+        //    {
+        //        using var contentstream = await httpResponseMessage.Content.ReadAsStreamAsync();
+        //        cust = await JsonSerializer.DeserializeAsync<IList<Registration>>(contentstream);
+
+        //    }
+        //    return Registration;
+        //}
+
+     
+            public async Task<string> ValidateUser(TbUser userMdl)
         {
             string msg = "";
             try
@@ -75,5 +98,31 @@ namespace ServiceLayer
             return Login;
         }
 
+        public async Task<Boolean> Forgetpassword(Registration regModel)
+        {
+
+
+            try
+            {
+                var payload = Newtonsoft.Json.JsonConvert.SerializeObject(regModel);
+
+                HttpContent c = new StringContent(payload, Encoding.UTF8, "application/json");
+                // HttpClient.BaseAddress = new Uri(APIDetails.API.ToString());
+
+
+                HttpResponseMessage httpResponseMessage = await HttpClient.PostAsync(APIDetails.API.ToString() + "User/forgotpassword", c);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                {
+                 
+                    return true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return false;
+        }
     }
 }
